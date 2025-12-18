@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Binary Beasts | Student Stress Support</title>
+    <style>
+        :root { --accent: #ff0050; --bg: #121212; --card: #1e1e1e; --text: #ffffff; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); padding: 20px; }
+        .container { max-width: 600px; margin: auto; background: var(--card); padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #333; }
+        h1 { color: var(--accent); text-align: center; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #888; margin-bottom: 30px; font-size: 0.9em; }
+        .input-group { margin-bottom: 25px; }
+        label { display: block; margin-bottom: 10px; font-weight: 500; }
+        input[type="range"] { width: 100%; accent-color: var(--accent); }
+        .val-display { float: right; color: var(--accent); font-weight: bold; }
+        .result-area { margin-top: 30px; padding: 20px; border-radius: 12px; display: none; text-align: center; border-left: 5px solid; }
+        .recs { margin-top: 20px; text-align: left; background: #252525; padding: 15px; border-radius: 8px; font-size: 0.95em; line-height: 1.6; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>HACK WITH INDIA</h1>
+    <div class="subtitle">Binary Beasts | Student Stress Prediction System</div>
+
+    <div class="input-group">
+        <label>Academic Workload <span class="val-display" id="w_val">5</span></label>
+        <input type="range" id="workload" min="1" max="10" value="5">
+    </div>
+
+    <div class="input-group">
+        <label>Attendance (%) <span class="val-display" id="a_val">85%</span></label>
+        <input type="range" id="attendance" min="0" max="100" value="85">
+    </div>
+
+    <div class="input-group">
+        <label>Sleep Hours <span class="val-display" id="s_val">7h</span></label>
+        <input type="range" id="sleep" min="0" max="12" value="7">
+    </div>
+
+    <div class="input-group">
+        <label>Current Mood <span class="val-display" id="m_val">6</span></label>
+        <input type="range" id="mood" min="1" max="10" value="6">
+    </div>
+
+    <button onclick="predictStress()" style="width: 100%; padding: 15px; background: var(--accent); border: none; color: white; border-radius: 8px; font-weight: bold; cursor: pointer;">PREDICT STRESS LEVEL</button>
+
+    <div id="result" class="result-area">
+        <h2 id="level-text">LEVEL: LOW</h2>
+        <div id="score-text">Score: 0/100</div>
+        <div class="recs" id="recommendations"></div>
+    </div>
+</div>
+
+<script>
+    // Update displays
+    const inputs = ['workload', 'attendance', 'sleep', 'mood'];
+    inputs.forEach(id => {
+        document.getElementById(id).oninput = function() {
+            let suffix = id === 'attendance' ? '%' : (id === 'sleep' ? 'h' : '');
+            document.getElementById(id + '_val').innerText = this.value + suffix;
+        }
+    });
+
+    function predictStress() {
+        const w = parseInt(document.getElementById('workload').value);
+        const a = parseInt(document.getElementById('attendance').value);
+        const s = parseInt(document.getElementById('sleep').value);
+        const m = parseInt(document.getElementById('mood').value);
+
+        // ML Simulation Logic [cite: 11]
+        // Higher workload/Lower sleep/Lower mood = Higher stress
+        let stressScore = (w * 7) + (100 - a) * 0.2 + (12 - s) * 5 + (10 - m) * 4;
+        stressScore = Math.min(Math.max(Math.round(stressScore), 5), 100);
+
+        const res = document.getElementById('result');
+        const lvl = document.getElementById('level-text');
+        const rec = document.getElementById('recommendations');
+        res.style.display = 'block';
+
+        // Result Categories [cite: 11, 13]
+        if (stressScore < 40) {
+            lvl.innerText = "LEVEL: LOW 🟢";
+            res.style.borderColor = "#2ecc71";
+            rec.innerHTML = "<b>Recommendations:</b><br>• Excellent balance! Maintain your routine.<br>• Use this high-energy phase for complex academic tasks.";
+        } else if (stressScore < 75) {
+            lvl.innerText = "LEVEL: MEDIUM 🟡";
+            res.style.borderColor = "#f1c40f";
+            rec.innerHTML = "<b>Recommendations:</b><br>• Practice 5-minute mindfulness session.<br>• Try Pomodoro for time-management.";
+        } else {
+            lvl.innerText = "LEVEL: HIGH 🔴";
+            res.style.borderColor = "#e74c3c";
+            rec.innerHTML = "<b>Recommendations:</b><br>• Urgent: Take a 30-minute digital break.<br>• Reach out to campus counseling for support.";
+        }
+        document.getElementById('score-text').innerText = "Calculated Stress Score: " + stressScore + "/100";
+    }
+</script>
+</body>
+</html>
