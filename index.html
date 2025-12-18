@@ -2,98 +2,287 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Binary Beasts | Student Stress Support</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wellness Navigator | Student Support</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        :root { --accent: #ff0050; --bg: #121212; --card: #1e1e1e; --text: #ffffff; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); padding: 20px; }
-        .container { max-width: 600px; margin: auto; background: var(--card); padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #333; }
-        h1 { color: var(--accent); text-align: center; margin-bottom: 5px; }
-        .subtitle { text-align: center; color: #888; margin-bottom: 30px; font-size: 0.9em; }
-        .input-group { margin-bottom: 25px; }
-        label { display: block; margin-bottom: 10px; font-weight: 500; }
-        input[type="range"] { width: 100%; accent-color: var(--accent); }
-        .val-display { float: right; color: var(--accent); font-weight: bold; }
-        .result-area { margin-top: 30px; padding: 20px; border-radius: 12px; display: none; text-align: center; border-left: 5px solid; }
-        .recs { margin-top: 20px; text-align: left; background: #252525; padding: 15px; border-radius: 8px; font-size: 0.95em; line-height: 1.6; }
+        :root {
+            --primary: #4f46e5; /* Soft Indigo */
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: var(--card);
+            max-width: 500px;
+            width: 100%;
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .brand-logo {
+            font-weight: 600;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            margin: 0;
+            color: #0f172a;
+        }
+
+        p.intro {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-top: 8px;
+        }
+
+        .input-card {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 500;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+        }
+
+        .val-badge {
+            color: var(--primary);
+            background: #eef2ff;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+        }
+
+        /* Modern Slider Styling */
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            background: var(--primary);
+            cursor: pointer;
+            border-radius: 50%;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .action-btn {
+            width: 100%;
+            padding: 16px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 10px;
+        }
+
+        .action-btn:hover {
+            background-color: #4338ca;
+            transform: translateY(-1px);
+        }
+
+        /* Results & Recommendations */
+        #result-container {
+            display: none;
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid #f1f5f9;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .status-pill {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .rec-box {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 16px;
+        }
+
+        .rec-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .rec-item span {
+            margin-right: 10px;
+        }
+
+        footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>HACK WITH INDIA</h1>
-    <div class="subtitle">Binary Beasts | Student Stress Prediction System</div>
+    <div class="header">
+        <span class="brand-logo">Wellness Navigator</span>
+        <h1>How are you today?</h1>
+        <p class="intro">Adjust the sliders below to check your current stress levels and get personalized support.</p>
+    </div>
 
-    <div class="input-group">
-        <label>Academic Workload <span class="val-display" id="w_val">5</span></label>
+    <div class="input-card">
+        <label>Academic Workload <span class="val-badge" id="w_lab">Moderate</span></label>
         <input type="range" id="workload" min="1" max="10" value="5">
     </div>
 
-    <div class="input-group">
-        <label>Attendance (%) <span class="val-display" id="a_val">85%</span></label>
-        <input type="range" id="attendance" min="0" max="100" value="85">
-    </div>
-
-    <div class="input-group">
-        <label>Sleep Hours <span class="val-display" id="s_val">7h</span></label>
+    <div class="input-card">
+        <label>Sleep Last Night <span class="val-badge" id="s_lab">7 hours</span></label>
         <input type="range" id="sleep" min="0" max="12" value="7">
     </div>
 
-    <div class="input-group">
-        <label>Current Mood <span class="val-display" id="m_val">6</span></label>
+    <div class="input-card">
+        <label>Current Mood <span class="val-badge" id="m_lab">Neutral</span></label>
         <input type="range" id="mood" min="1" max="10" value="6">
     </div>
 
-    <button onclick="predictStress()" style="width: 100%; padding: 15px; background: var(--accent); border: none; color: white; border-radius: 8px; font-weight: bold; cursor: pointer;">PREDICT STRESS LEVEL</button>
+    <button class="action-btn" onclick="analyzeStress()">Check My Wellbeing</button>
 
-    <div id="result" class="result-area">
-        <h2 id="level-text">LEVEL: LOW</h2>
-        <div id="score-text">Score: 0/100</div>
-        <div class="recs" id="recommendations"></div>
+    <div id="result-container">
+        <div id="status-badge" class="status-pill"></div>
+        <div style="font-size: 0.9rem; color: var(--text-muted);">Calculated Wellness Score: <strong id="score-val" style="color: var(--text-main);">0/100</strong></div>
+        
+        <div class="rec-box">
+            <div style="font-weight: 600; margin-bottom: 12px; font-size: 0.95rem;">Suggested Actions:</div>
+            <div id="recommendations"></div>
+        </div>
     </div>
+
+    <footer>
+        &copy; 2025 Binary Beasts. Privacy-focused & Anonymous.
+    </footer>
 </div>
 
 <script>
-    // Update displays
-    const inputs = ['workload', 'attendance', 'sleep', 'mood'];
-    inputs.forEach(id => {
-        document.getElementById(id).oninput = function() {
-            let suffix = id === 'attendance' ? '%' : (id === 'sleep' ? 'h' : '');
-            document.getElementById(id + '_val').innerText = this.value + suffix;
-        }
-    });
+    // Live Label Updates
+    const w = document.getElementById('workload');
+    const s = document.getElementById('sleep');
+    const m = document.getElementById('mood');
 
-    function predictStress() {
-        const w = parseInt(document.getElementById('workload').value);
-        const a = parseInt(document.getElementById('attendance').value);
-        const s = parseInt(document.getElementById('sleep').value);
-        const m = parseInt(document.getElementById('mood').value);
+    w.oninput = () => {
+        let txt = w.value <= 3 ? "Light" : (w.value <= 7 ? "Moderate" : "Heavy");
+        document.getElementById('w_lab').innerText = txt;
+    }
+    s.oninput = () => document.getElementById('s_lab').innerText = s.value + " hours";
+    m.oninput = () => {
+        let txt = m.value <= 3 ? "Low" : (m.value <= 7 ? "Neutral" : "Great!");
+        document.getElementById('m_lab').innerText = txt;
+    }
 
-        // ML Simulation Logic [cite: 11]
-        // Higher workload/Lower sleep/Lower mood = Higher stress
-        let stressScore = (w * 7) + (100 - a) * 0.2 + (12 - s) * 5 + (10 - m) * 4;
-        stressScore = Math.min(Math.max(Math.round(stressScore), 5), 100);
+    function analyzeStress() {
+        const workload = parseInt(w.value);
+        const sleep = parseInt(s.value);
+        const mood = parseInt(m.value);
 
-        const res = document.getElementById('result');
-        const lvl = document.getElementById('level-text');
-        const rec = document.getElementById('recommendations');
-        res.style.display = 'block';
+        // Core logic from Binary Beasts proposal [cite: 16]
+        let score = (workload * 8) + (12 - sleep) * 5 + (10 - mood) * 4;
+        score = Math.min(Math.max(Math.round(score), 5), 100);
 
-        // Result Categories [cite: 11, 13]
-        if (stressScore < 40) {
-            lvl.innerText = "LEVEL: LOW 🟢";
-            res.style.borderColor = "#2ecc71";
-            rec.innerHTML = "<b>Recommendations:</b><br>• Excellent balance! Maintain your routine.<br>• Use this high-energy phase for complex academic tasks.";
-        } else if (stressScore < 75) {
-            lvl.innerText = "LEVEL: MEDIUM 🟡";
-            res.style.borderColor = "#f1c40f";
-            rec.innerHTML = "<b>Recommendations:</b><br>• Practice 5-minute mindfulness session.<br>• Try Pomodoro for time-management.";
+        const container = document.getElementById('result-container');
+        const badge = document.getElementById('status-badge');
+        const scoreVal = document.getElementById('score-val');
+        const recs = document.getElementById('recommendations');
+
+        container.style.display = 'block';
+        scoreVal.innerText = score + "/100";
+
+        // Comforting, friendly feedback
+        if (score < 40) {
+            badge.innerText = "You're Doing Great";
+            badge.style.backgroundColor = "#dcfce7";
+            badge.style.color = "#166534";
+            recs.innerHTML = `
+                <div class="rec-item"><span>✨</span> You have a healthy balance. Keep prioritizing your current routine.</div>
+                <div class="rec-item"><span>🌱</span> Use this calm period to explore a new hobby or project.</div>
+            `;
+        } else if (score < 75) {
+            badge.innerText = "Feeling a Bit Strained";
+            badge.style.backgroundColor = "#fef3c7";
+            badge.style.color = "#92400e";
+            recs.innerHTML = `
+                <div class="rec-item"><span>🧘</span> Try the 'Box Breathing' technique for 2 minutes to reset.</div>
+                <div class="rec-item"><span>🚶</span> A short 10-minute walk could help clear your mind.</div>
+                <div class="rec-item"><span>📅</span> Consider breaking your tasks into 25-minute focus sessions.</div>
+            `;
         } else {
-            lvl.innerText = "LEVEL: HIGH 🔴";
-            res.style.borderColor = "#e74c3c";
-            rec.innerHTML = "<b>Recommendations:</b><br>• Urgent: Take a 30-minute digital break.<br>• Reach out to campus counseling for support.";
+            badge.innerText = "Time for a Break";
+            badge.style.backgroundColor = "#fee2e2";
+            badge.style.color = "#991b1b";
+            recs.innerHTML = `
+                <div class="rec-item"><span>🛑</span> <b>Immediate Action:</b> Please step away from your work for 30 minutes.</div>
+                <div class="rec-item"><span>🤝</span> It's okay to ask for help. Reach out to a friend or a counselor today.</div>
+                <div class="rec-item"><span>😴</span> Focus on getting extra rest tonight; everything else can wait.</div>
+            `;
         }
-        document.getElementById('score-text').innerText = "Calculated Stress Score: " + stressScore + "/100";
+        
+        // Scroll to results
+        container.scrollIntoView({ behavior: 'smooth' });
     }
 </script>
+
 </body>
 </html>
